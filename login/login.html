@@ -1,13 +1,13 @@
 <link rel="stylesheet" type="text/css" href="../css/main.css">
 <section id="form_login">
-<form class="form" action="" method="post">
-	<legend> Login to M-Banking</legend> <br> <br>
+<form class="form" action="../database/loginvalidation.php" method="post" onsubmit="">
+	<legend><h1>Login to M-Banking</h1></legend> <br> <br>
 	<label for="account_number">A/C NO:</label>
 	<input type="text" name="account_number" required="required"> <br> <br>
-	<label for="pin">Pin:</label>
-	<input type="text" name="pin" required="required"> <br> <br>
+	<label for="pass">Pin:</label>
+	<input type="password" name="pass" required="required"> <br> <br>
 	<button type="button" onclick="die();">EXIT</button>
-	<button type="submit" class="btn_login">LogIn</button>
+	<button type="submit" name="Submit" class="btn_login">LogIn</button>
 	<a href="register.html"> <button id="btn_register">Register</button> </a>
 	
 </form>

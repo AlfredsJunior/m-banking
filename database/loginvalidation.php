@@ -1,30 +1,48 @@
-<?php 
+<?php
+$host="localhost"; // Host name 
+$username="root"; // Mysql username 
+$password=""; // Mysql password 
+$db_name="m_banking"; // Database name 
 
-$servername = "localhost";
-$database = "m_banking";
-$username = "root";
-$password = "";
 
 
-$Pin =$_POST['pin'];
-$AccountNumber =$_POST['account_number']
+// Connect to server and select databse.
+ $conn = mysqli_connect("$host", "$username", "$password", "$db_name"); 
+ // Check connection
+if (!$conn) {
+     die("Connection failed: " . mysqli_connect_error());
+}
+ 
 
-mysql_connect("Server", "root", "Gen") or die("Couldn't select database.");
-mysql_select_db("generator") or die("Couldn't select database.");
+// Define $account_number and $pass 
+$account_number= $_POST['account_number'];
+$pass= $_POST['pass'];
 
-$account_number = $_POST['acount_number'];
-$pin = $_POST['pin'];
+// To protect MySQL injection
+$account_number = stripslashes($account_number);
+$pass = stripslashes($pass);
 
-$sql = "SELECT * FROM users WHERE account_number = '$account_number' AND pin = '$pin' ";
-$result = mysql_query($sql) or die(mysql_error());
-$numrows = mysql_num_rows($result);
-if($numrows > 0)
-   {
-   	<
-    echo '../m-banking-services.m_banking.html';
-   }
-else
-   {
-    echo "Your Credentials aren't correct";
-   }
-   ?>
+	$account_number = mysqli_real_escape_string($conn, $_POST['account_number']);
+	$pass = mysqli_real_escape_string($conn, $_POST['pass']); 
+$sql = "SELECT * FROM users WHERE Account_Number='$account_number' and Pin='$pass'";
+$result = mysqli_query($conn, $sql);
+
+// Mysql_num_row is counting table row
+$count = mysqli_num_rows( $result);
+// If result matched $account and $pass, table row must be 1 row
+
+if ($count==1){
+// Register $account_number, $pass and redirect to file "m_banking_services.html"
+	/*
+session_register("Account_Number");
+session_register("Pin"); 
+header("location:");*/
+echo "<a href='../m-banking-services/m_banking_service.html'>Welcome to M-Banking</a>";
+}
+else {
+echo " Wrong Credentials";
+header("login.html");
+}
+
+mysqli_close($conn);
+?>

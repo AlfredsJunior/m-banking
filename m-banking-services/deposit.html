@@ -1,12 +1,12 @@
 <link rel="stylesheet" type="text/css" href="../css/main.css">
 <section>
 	<div>
-		<form>
+		<form method="post" action="../database/depositvaliadation.php">
 			<legend> <h1>Deposit</h1></legend> <br> <br>
-			<label for="amount">Amout:</label>
-			<input type="text" name=" amount" required="required"><br> <br>
+			<label for="amount_deposited">Amout:</label>
+			<input type="text" name="amount_deposited" required="required"><br> <br>
 			<a href="login.html"> <button class="">Back</button></a>
-			<button type="submit" class="submit">Ok</button>
+			<button type="submit" name="submit" class="submit">Ok</button>
 			
 		</form>
 	</div>

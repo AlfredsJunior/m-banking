@@ -1,5 +1,4 @@
 <?php
-
 // This function will run within each post array including multi-dimensional arrays
 function ExtendedAddslash(&$params)
 {
@@ -12,93 +11,67 @@ function ExtendedAddslash(&$params)
 
 // Initialize ExtendedAddslash() function for every $_POST variable
 ExtendedAddslash($_POST);     
-$FisrtName = $_POST['fname'];
-$LastName =$_POST['lname'];
-$Phone =$_POST['phone'];
-$Email =$_POST['email'];
-$Pin =$_POST['pin'];
-$Confirm_Pin =$_POST['confirm_pin'];
+$fname = $_POST['fname'];
+$lname =$_POST['lname'];
+$phone =$_POST['phone'];
+$email =$_POST['email'];
+$pin =$_POST['pass'];
+$pin_confirm =$_POST['confirm_pass'];
+//confirming if the password matches
+if($pin != $pin_confirm)
+	{
+         echo "Pins doesn't match";
+         return 0;
+
+     }
+
+
 /*
-$db_host = 'localhost';
-$db_username = 'root';
-$db_password = '';
-$db_name = 'm_banking'; */
+		$secret = password_hash($pin, PASSWORD_BCRYPT);
+		$confirm_secret = password_hash($pin_confirm, PASSWORD_BCRYPT);
+		*/
+		//Store in database
+		$servername = "localhost";
+		$database = "m_banking";
+		$username = "root";
+		$password = "";
 
+		// Create connection
+		$conn = new mysqli($servername, $username, $password, $database);
+		// Check connection
+		if ($conn->connect_error)
+	  {
+		die("Connection failed: " . $conn->connect_error);
+	   }
 
-$servername = "localhost";
-$database = "m_banking";
-$username = "root";
-$password = "";
+					$sql = "INSERT INTO Users (FirstName, LastName, Phone, Email, Pin, ConfirmPin)
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
-// Check connection
-if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
-}
-echo "Connected successfully";
- 
+					VALUES
 
-$sq l= "INSERT INTO Users (First_Name, Last_Name, Phone, Email,Pin, Confirm_Pin)
+					('$_POST[fname]','$_POST[lname]', '$_POST[phone]','$_POST[email]', '$_POST[pass]','$_POST[confirm_pass]')";
 
-VALUES
+						
+								$query  = "SELECT Account_Number FROM users";
+								$result = $conn->query($query);						
+									$row = $result->fetch_assoc();
+									echo "Your Account number is <br>";
+									echo $row["Account_Number"];
+								    // output data of each row
+								   echo("<a href='../login/login.html'>Click to log In</a>")
+								    
+								 
+								 
+//		$conn->close();
+							
 
-('$_POST[fname]','$_POST[lname]', '$_POST[phone]','$_POST[email]', '$_POST[pin]','$_POST[confirm_pin]')";
-
- 
-
-if (!mysql_query($sql,$con))
-
-  {
-
-  die('Error: ' . mysql_error());
-
-  }
-
-echo "added successfully";
-
- 
-
-mysql_close($con)
 
 ?>
 
 
 
-<?php
 
 
 
 
-/*
-mysql_connect( $db_host, $db_username, $db_password) or die(mysql_error());
-mysql_select_db($db_name);
 
-// search submission ID
-//can be used to log in
 
-$query = "SELECT * FROM `table_name` WHERE `submission_id` = '$submission_id'";
-$sqlsearch = mysql_query($query);
-$resultcount = mysql_numrows($sqlsearch);
-
-if ($resultcount > 0) {
- 
-    mysql_query("UPDATE `table_name` SET
-                                `name` = '$name',
-                                `email` = '$email',
-                                `phone` = '$phonenumber',
-                                `subject` = '$subject',
-                                `message` = '$message'       
-                             WHERE `submission_id` = '$submission_id'")
-     or die(mysql_error());
-   
-} else {
-
-    mysql_query("INSERT INTO `table_name` (submission_id, formID, IP,
-                                                                          name, email, phone, subject, message)
-                               VALUES ('$submission_id', '$formID', '$ip',
-                                                 '$name', '$email', '$phonenumber', '$subject', '$message') ")
-    or die(mysql_error()); 
-
-} */
-?>  ?>
